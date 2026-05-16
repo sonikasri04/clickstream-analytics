@@ -42,18 +42,6 @@ Faust Stream Processor
 
 ---
 
-## Services
-
-| Service | URL | Credentials |
-|---|---|---|
-| Grafana Dashboard | http://localhost:3000 | admin / admin |
-| Kafka UI | http://localhost:8080 | — |
-| Flink Dashboard | http://localhost:8081 | — |
-| PostgreSQL | localhost:5432 | admin / admin123 |
-| Redis | localhost:6379 | — |
-
----
-
 ## Event Schema
 
 Each clickstream event produced to Kafka looks like:
@@ -116,11 +104,11 @@ clickstream-platform/
 
 ## Key Streaming Concepts Demonstrated
 
-- **Windowed aggregations** — tumbling (non-overlapping) and sliding (overlapping) windows
-- **Late data handling** — 30-second watermark tolerance for out-of-order events
-- **Dual-sink pattern** — PostgreSQL for analytics, Redis for operational hot-path
-- **Partition keying** — events keyed by `user_id` for session locality
-- **Exactly-once semantics** — via Faust consumer group offset management
-- **Stateful processing** — session tracking across events
+- **Windowed aggregations** - tumbling (non-overlapping) and sliding (overlapping) windows
+- **Late data handling** - 30-second watermark tolerance for out-of-order events
+- **Dual-sink pattern** - PostgreSQL for analytics, Redis for operational hot-path
+- **Partition keying** - events keyed by `user_id` for session locality
+- **Exactly-once semantics** - via Faust consumer group offset management
+- **Stateful processing** - session tracking across events
 
 ---
