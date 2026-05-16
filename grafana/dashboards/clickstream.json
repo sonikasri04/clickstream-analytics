@@ -1,0 +1,74 @@
+{
+  "title": "Clickstream Analytics",
+  "refresh": "5s",
+  "time": { "from": "now-30m", "to": "now" },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Page Views per Minute",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 0, "w": 16, "h": 8 },
+      "targets": [
+        {
+          "datasource": "PostgreSQL",
+          "rawSql": "SELECT window_start AS time, SUM(view_count) AS \"Total Views\" FROM page_views_1min WHERE $__timeFilter(window_start) GROUP BY window_start ORDER BY window_start",
+          "format": "time_series"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Active Sessions",
+      "type": "stat",
+      "gridPos": { "x": 16, "y": 0, "w": 8, "h": 4 },
+      "targets": [
+        {
+          "datasource": "PostgreSQL",
+          "rawSql": "SELECT MAX(session_count) FROM active_sessions_5min WHERE window_start >= NOW() - INTERVAL '5 minutes'",
+          "format": "table"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Top Pages",
+      "type": "barchart",
+      "gridPos": { "x": 16, "y": 4, "w": 8, "h": 8 },
+      "targets": [
+        {
+          "datasource": "PostgreSQL",
+          "rawSql": "SELECT page_url, SUM(view_count) AS views FROM page_views_1min WHERE $__timeFilter(window_start) GROUP BY page_url ORDER BY views DESC LIMIT 10",
+          "format": "table"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Conversion Funnel",
+      "type": "barchart",
+      "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "datasource": "PostgreSQL",
+          "rawSql": "SELECT step, SUM(event_count) AS events FROM funnel_metrics WHERE $__timeFilter(window_start) GROUP BY step ORDER BY events DESC",
+          "format": "table"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Unique Users per Page",
+      "type": "timeseries",
+      "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "datasource": "PostgreSQL",
+          "rawSql": "SELECT window_start AS time, page_url AS metric, unique_users AS value FROM page_views_1min WHERE $__timeFilter(window_start) ORDER BY window_start",
+          "format": "time_series"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 38,
+  "version": 1
+}

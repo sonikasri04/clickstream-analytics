@@ -1,0 +1,15 @@
+apiVersion: 1
+datasources:
+  - name: PostgreSQL
+    type: postgres
+    url: postgres:5432
+    database: clickstream
+    user: admin
+    secureJsonData:
+      password: admin123
+    jsonData:
+      sslmode: disable
+      maxOpenConns: 10
+      postgresVersion: 1500
+      timescaledb: false
+    isDefault: true
